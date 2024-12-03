@@ -54,8 +54,48 @@ func part1(input [][]int) {
 	fmt.Println(numSafe)
 }
 
-func part2(input string) {
+func part2(input [][]int) {
+	numSafe := 0
 
+	for _, arr := range input {
+		if isSafe(arr) {
+			numSafe++
+		} else {
+			for i := range arr {
+				temp := append([]int(nil), arr...)
+				newArr := append(temp[:i], temp[i+1:]...)
+				if isSafe(newArr) {
+					numSafe++
+					break
+				}
+			}
+		}
+	}
+	fmt.Println(numSafe)
+}
+
+func isSafe(arr []int) bool {
+	increasing := false
+	decreasing := false
+	if arr[0] > arr[1] {
+		decreasing = true
+	} else {
+		increasing = true
+	}
+
+	for i := 1; i < len(arr); i++ {
+		diff := math.Abs(float64(arr[i] - arr[i-1]))
+		if diff > 3 || diff < 1 {
+			return false
+		}
+		if increasing && arr[i] < arr[i-1] {
+			return false
+		}
+		if decreasing && arr[i] > arr[i-1] {
+			return false
+		}
+	}
+	return true
 }
 
 func helper(input string) {
@@ -78,5 +118,5 @@ func helper(input string) {
 		}
 		result[i] = numbers
 	}
-	part1(result)
+	part2(result)
 }
