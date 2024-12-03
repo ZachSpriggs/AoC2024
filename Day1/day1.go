@@ -57,9 +57,23 @@ func part1(input string) {
 		sum += diff
 	}
 
-	fmt.Println(sum)
+	// fmt.Println(sum)
+	part2(leftArr, rightArr)
 }
 
-func part2(input string) {
+func part2(leftArray []int, rightArray []int) {
+	counts := make(map[int]int)
 
+	for _, num := range rightArray {
+		counts[num]++
+	}
+
+	score := 0
+	for _, num := range leftArray {
+		if count, exists := counts[num]; exists {
+			score += num * count
+		}
+	}
+
+	fmt.Println(score)
 }
